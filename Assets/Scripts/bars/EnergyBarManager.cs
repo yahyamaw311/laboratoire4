@@ -10,17 +10,6 @@ public class EnergyBarManager : MonoBehaviour
     private float currentHealth;
     private float maxHealth = 100f;
 
-    //void Start()
-    //{
-    //    Debug.Log("Démarrage du script HealthBarManager"); // Debug pour vérifier que Start est bien appelé
-    //    currentHealth = maxHealth;
-    //    energyBar.SetMaxHealth(maxHealth); // Initialiser la barre de santé avec la valeur maximale
-
-    //    while (true)
-    //    {
-    //        
-    //    }
-    //}
 
     void Start()
     {
