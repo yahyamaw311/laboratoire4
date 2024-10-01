@@ -23,7 +23,7 @@ public class Chronometre : MonoBehaviour
     {
         while(chronometre > 0)
         {
-            chronometre -= 30;
+            chronometre --;
             chronometreText.text = chronometre.ToString();
             if(chronometre == 0)
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ClaireController : MonoBehaviour {
@@ -25,6 +26,7 @@ public class ClaireController : MonoBehaviour {
     [SerializeField] bool isJumping = false;
 
     public bool isDead = false;
+    public GameObject gameOverSign;
 
     private void Awake()
     {
@@ -129,7 +131,7 @@ public class ClaireController : MonoBehaviour {
     {
         claireAnimator.SetTrigger("dead");
         GetComponent<ClaireController>().enabled = false;
-
+        gameOverSign.SetActive(true);
     }
 
     public void PlaySoundImpact()

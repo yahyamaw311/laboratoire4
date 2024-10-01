@@ -34,11 +34,11 @@ public class EnergyBarManager : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetAxis("Vertical") > 0)
             {
-                DecrementEnergy(3);
+                DecrementEnergy(4);
             }
             else if(Input.GetAxis("Vertical") != 0)
             {
-                DecrementEnergy(1);
+                DecrementEnergy(2);
             }
             yield return new WaitForSeconds(1);
         }
