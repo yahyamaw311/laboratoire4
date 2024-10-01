@@ -23,9 +23,14 @@ public class Chronometre : MonoBehaviour
     {
         while(chronometre > 0)
         {
-            chronometre--;
+            chronometre -= 30;
             chronometreText.text = chronometre.ToString();
+            if(chronometre == 0)
+            {
+                break;
+            }
             yield return new WaitForSeconds(1);
         }
+        GameObject.Find("ClairePlayer").GetComponent<ClaireController>().isDead = true;
     }
 }

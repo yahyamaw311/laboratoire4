@@ -24,6 +24,8 @@ public class ClaireController : MonoBehaviour {
 
     [SerializeField] bool isJumping = false;
 
+    public bool isDead = false;
+
     private void Awake()
     {
         claireAnimator = GetComponent<Animator>();
@@ -33,6 +35,12 @@ public class ClaireController : MonoBehaviour {
     }
 
     void Update () {
+
+        if (isDead)
+        {
+            ClaireDead();
+        }
+
 
         axisH = Input.GetAxis("Horizontal");
         axisV = Input.GetAxis("Vertical");
@@ -97,13 +105,6 @@ public class ClaireController : MonoBehaviour {
             countdown = timeout;
             claireAnimator.SetBool("dance", false);
             transform.Find("AudioDance").GetComponent<AudioSource>().enabled = false;
-        }
-
-        //Debug Dead 
-
-        if(Input.GetKeyDown(KeyCode.AltGr))
-        {
-            ClaireDead();
         }
 
         //curve de saut

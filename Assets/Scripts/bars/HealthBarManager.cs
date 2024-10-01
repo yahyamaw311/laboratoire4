@@ -33,6 +33,10 @@ public class HealthBarManager : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Limiter la santé entre 0 et la santé max
         Debug.Log("Santé actuelle après dégâts : " + currentHealth); // Vérifier que la santé est correctement calculée
         healthBar.SetHealth(currentHealth, maxHealth); // Appeler la mise à jour de la barre de santé
-        
+
+        if (currentHealth == 0)
+        {
+            GameObject.Find("ClairePlayer").GetComponent<ClaireController>().isDead = true;
+        }
     }
 }

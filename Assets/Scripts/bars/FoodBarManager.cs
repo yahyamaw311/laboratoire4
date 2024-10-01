@@ -30,7 +30,7 @@ public class FoodBarManager : MonoBehaviour
     {
         while (true)
         {
-            decrementEnergy(10);
+            decrementEnergy(2);
             yield return new WaitForSeconds(1.5f);
         }
 
@@ -41,5 +41,10 @@ public class FoodBarManager : MonoBehaviour
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         foodBar.SetHealth(currentHealth, maxHealth);
+
+        if(currentHealth == 0)
+        {
+            GameObject.Find("ClairePlayer").GetComponent<ClaireController>().isDead = true;
+        }
     }
 }

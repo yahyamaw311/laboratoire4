@@ -34,11 +34,11 @@ public class EnergyBarManager : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetAxis("Vertical") > 0)
             {
-                decrementEnergy(3);
+                DecrementEnergy(3);
             }
-            else if(Input.GetAxis("Vertical") > 0)
+            else if(Input.GetAxis("Vertical") != 0)
             {
-                decrementEnergy(1);
+                DecrementEnergy(1);
             }
             yield return new WaitForSeconds(1);
         }
@@ -46,10 +46,15 @@ public class EnergyBarManager : MonoBehaviour
     }
 
 
-    public void decrementEnergy(float damageAmount)
+    public void DecrementEnergy(float damageAmount)
     {
         currentHealth -= damageAmount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         energyBar.SetHealth(currentHealth, maxHealth);
+
+        if (currentHealth == 0)
+        {
+            GameObject.Find("ClairePlayer").GetComponent<ClaireController>().isDead = true;
+        }
     }
 }
