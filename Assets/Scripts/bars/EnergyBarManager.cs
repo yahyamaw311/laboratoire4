@@ -22,7 +22,7 @@ public class EnergyBarManager : MonoBehaviour
     {
         if (other.CompareTag("battery"))
         {
-            currentHealth += 30;
+            currentHealth += (currentHealth < 70 ? 30 : 100 - currentHealth);
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             energyBar.SetHealth(currentHealth, maxHealth);
         }

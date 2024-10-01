@@ -20,7 +20,7 @@ public class FoodBarManager : MonoBehaviour
     {
         if (other.CompareTag("food"))
         {
-            currentHealth += 30;
+            currentHealth += (currentHealth < 70 ? 30 : 100 - currentHealth);
             currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
             foodBar.SetHealth(currentHealth, maxHealth);
         }
@@ -30,8 +30,8 @@ public class FoodBarManager : MonoBehaviour
     {
         while (true)
         {
-            decrementEnergy(2);
-            yield return new WaitForSeconds(0.7f);
+            decrementEnergy(10);
+            yield return new WaitForSeconds(1.5f);
         }
 
     }
