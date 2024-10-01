@@ -27,6 +27,7 @@ public class ClaireController : MonoBehaviour {
 
     public bool isDead = false;
     public GameObject gameOverSign;
+    public GameObject chronometre;
 
     private void Awake()
     {
@@ -132,6 +133,15 @@ public class ClaireController : MonoBehaviour {
         claireAnimator.SetTrigger("dead");
         GetComponent<ClaireController>().enabled = false;
         gameOverSign.SetActive(true);
+        
+        Destroy(GetComponent<HealthBarManager>());
+        Destroy(GetComponent<EnergyBarManager>());
+        Destroy(GetComponent<FoodBarManager>());
+        Destroy(chronometre.GetComponent<Chronometre>());
+        EnemyFollow.speed = 0;
+        EnemyFollow.activationDistance = 0;
+
+
     }
 
     public void PlaySoundImpact()

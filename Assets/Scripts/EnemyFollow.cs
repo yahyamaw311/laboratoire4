@@ -3,8 +3,8 @@ using UnityEngine;
 public class EnemyFollow : MonoBehaviour
 {
     public Transform player;        // Référence au joueur
-    public int speed = 10;      // Vitesse de déplacement vers le joueur
-    public float activationDistance = 7.0f;  // Distance d'activation de l'ennemi
+    public static int speed = 10;      // Vitesse de déplacement vers le joueur
+    public static float activationDistance = 7.0f;  // Distance d'activation de l'ennemi
     private Animator animator;      // Référence à l'Animator
 
     Vector3 direction;
