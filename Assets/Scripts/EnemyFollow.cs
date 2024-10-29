@@ -3,72 +3,76 @@ using UnityEngine;
 public class EnemyFollow : MonoBehaviour
 {
     public Transform player;        // Référence au joueur
-    public static int speed = 10;      // Vitesse de déplacement vers le joueur
+    public static int speed = 5;      // Vitesse de déplacement vers le joueur
     public static float activationDistance = 7.0f;  // Distance d'activation de l'ennemi
     private Animator animator;      // Référence à l'Animator
+    [SerializeField] Transform target;
+    UnityEngine.AI.NavMeshAgent agent;
 
     Vector3 direction;
 
     void Start()
     {
-        // Si le joueur n'est pas assigné manuellement dans l'inspecteur, trouvez-le automatiquement
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-        }
+        // // Si le joueur n'est pas assigné manuellement dans l'inspecteur, trouvez-le automatiquement
+        // if (player == null)
+        // {
+        //     player = GameObject.FindGameObjectWithTag("Player").transform;
+        // }
 
-        // Récupérer le composant Animator
-        animator = GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.enabled = false;  // Désactiver l'Animator au début
-        }
+        // // Récupérer le composant Animator
+        // animator = GetComponent<Animator>();
+        // if (animator != null)
+        // {
+        //     animator.enabled = false;  // Désactiver l'Animator au début
+        // }
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
     }
 
     void Update()
     {
         // Vérifier que le joueur est assigné et existe toujours
-        if (player != null && animator != null)
-        {
-            // Calculer la distance entre l'ennemi et le joueur
-            float distance = Vector3.Distance(transform.position, player.position);
+        // if (player != null && animator != null)
+        // {
+        //     // Calculer la distance entre l'ennemi et le joueur
+        //     float distance = Vector3.Distance(transform.position, player.position);
 
-            // Si le joueur est dans la distance d'activation, activer l'animation
-            if (distance <= activationDistance)
-            {
-                if (!animator.enabled)
-                {
-                    animator.enabled = true;  // Activer l'animation
-                    Debug.Log("Le joueur s'approche. Activation de l'ennemi.");
-                }
+        //     // Si le joueur est dans la distance d'activation, activer l'animation
+        //     if (distance <= activationDistance)
+        //     {
+        //         if (!animator.enabled)
+        //         {
+        //             animator.enabled = true;  // Activer l'animation
+        //             Debug.Log("Le joueur s'approche. Activation de l'ennemi.");
+        //         }
 
-                // // Calculer la direction vers le joueur
-                direction = new Vector3(player.position.x - transform.position.x, 0, player.position.z - transform.position.z).normalized;
+        //         // // Calculer la direction vers le joueur
+        //         direction = new Vector3(player.position.x - transform.position.x, 0, player.position.z - transform.position.z).normalized;
 
-                 Debug.Log("Le joueur s'approche. Activation de l'ennemi."+ direction);
+        //          Debug.Log("Le joueur s'approche. Activation de l'ennemi."+ direction);
 
-                // // Déplacer l'ennemi vers le joueur
-                transform.position += (direction /5) * speed * Time.deltaTime;
+        //         // // Déplacer l'ennemi vers le joueur
+        //         transform.position += (direction /5) * speed * Time.deltaTime;
 
-                // Faire face au joueur
-                transform.LookAt(player);
-            }
-            else
-            {
-                animator.enabled = false;
-            }
-            // else
-            // {
-            //     if (animator.enabled)
-            //     {
-            //         animator.enabled = true;  // Désactiver l'animation si le joueur est trop loin
-            //         Debug.Log("Le joueur est trop loin. Désactivation de l'ennemi.");
-            //           // // Calculer la direction vers le joueur
+        //         // Faire face au joueur
+        //         transform.LookAt(player);
+        //     }
+        //     else
+        //     {
+        //         animator.enabled = false;
+        //     }
+        //     // else
+        //     // {
+        //     //     if (animator.enabled)
+        //     //     {
+        //     //         animator.enabled = true;  // Désactiver l'animation si le joueur est trop loin
+        //     //         Debug.Log("Le joueur est trop loin. Désactivation de l'ennemi.");
+        //     //           // // Calculer la direction vers le joueur
 
-            //     // // Déplacer l'ennemi vers le joueur
-            //     transform.position += (direction /5) * speed * Time.deltaTime;
-            //     }
-            // }
-        }
+        //     //     // // Déplacer l'ennemi vers le joueur
+        //     //     transform.position += (direction /5) * speed * Time.deltaTime;
+        //     //     }
+        //     // }
+        // }
+        agent.SetDestination(target.position);
     }
 }
