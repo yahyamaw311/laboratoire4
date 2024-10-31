@@ -2,77 +2,61 @@ using UnityEngine;
 
 public class EnemyFollow : MonoBehaviour
 {
-    public Transform player;        // Référence au joueur
-    public static int speed = 5;      // Vitesse de déplacement vers le joueur
-    public static float activationDistance = 7.0f;  // Distance d'activation de l'ennemi
-    private Animator animator;      // Référence à l'Animator
     [SerializeField] Transform target;
+    [SerializeField] public static int speed = 5;      // Vitesse de déplacement vers le joueur
+    [SerializeField] public static float activationDistance = 7.0f;  // Distance d'activation de l'ennemi
+    private Animator animator;      // Référence à l'Animator
     UnityEngine.AI.NavMeshAgent agent;
 
-    Vector3 direction;
+    // for raycast
+    [SerializeField] Transform leftSensor, rightSensor;
+    Ray rayon;
+    RaycastHit hit;
 
     void Start()
     {
-        // // Si le joueur n'est pas assigné manuellement dans l'inspecteur, trouvez-le automatiquement
-        // if (player == null)
-        // {
-        //     player = GameObject.FindGameObjectWithTag("Player").transform;
-        // }
-
-        // // Récupérer le composant Animator
-        // animator = GetComponent<Animator>();
-        // if (animator != null)
-        // {
-        //     animator.enabled = false;  // Désactiver l'Animator au début
-        // }
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
     }
-
     void Update()
     {
-        // Vérifier que le joueur est assigné et existe toujours
-        // if (player != null && animator != null)
-        // {
-        //     // Calculer la distance entre l'ennemi et le joueur
-        //     float distance = Vector3.Distance(transform.position, player.position);
+        if(target == null){
+            return;
+        }
 
-        //     // Si le joueur est dans la distance d'activation, activer l'animation
-        //     if (distance <= activationDistance)
-        //     {
-        //         if (!animator.enabled)
-        //         {
-        //             animator.enabled = true;  // Activer l'animation
-        //             Debug.Log("Le joueur s'approche. Activation de l'ennemi.");
-        //         }
+        float distance = Vector3.Distance(transform.position, target.position);
 
-        //         // // Calculer la direction vers le joueur
-        //         direction = new Vector3(player.position.x - transform.position.x, 0, player.position.z - transform.position.z).normalized;
+        if (distance <= activationDistance)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(target.position);
+        } else
+        {
+            agent.isStopped = true;
+            SensorFunction(leftSensor, "Left Sensor");
+            SensorFunction(rightSensor, "Right Sensor");
+        }
+    }
 
-        //          Debug.Log("Le joueur s'approche. Activation de l'ennemi."+ direction);
 
-        //         // // Déplacer l'ennemi vers le joueur
-        //         transform.position += (direction /5) * speed * Time.deltaTime;
+    private void SensorFunction(Transform sensor, string sensorName)
+    {
+        rayon = new Ray(sensor.position, transform.TransformDirection(Vector3.forward));
 
-        //         // Faire face au joueur
-        //         transform.LookAt(player);
-        //     }
-        //     else
-        //     {
-        //         animator.enabled = false;
-        //     }
-        //     // else
-        //     // {
-        //     //     if (animator.enabled)
-        //     //     {
-        //     //         animator.enabled = true;  // Désactiver l'animation si le joueur est trop loin
-        //     //         Debug.Log("Le joueur est trop loin. Désactivation de l'ennemi.");
-        //     //           // // Calculer la direction vers le joueur
+        if (Physics.Raycast(rayon, out hit, Mathf.Infinity))
+        {
+            Debug.Log("Right Sensor Objet:" + hit.collider.name + " Distance:" + hit.distance); 
 
-        //     //     // // Déplacer l'ennemi vers le joueur
-        //     //     transform.position += (direction /5) * speed * Time.deltaTime;
-        //     //     }
-        //     // }
-        // }
-        agent.SetDestination(target.position);
+            if (hit.distance < 1)
+            {
+                float angle = Random.Range(100f, 300f);
+
+                transform.Rotate(Vector3.up * angle * (Time.deltaTime / 4));
+            }
+        }
+
+        Debug.DrawRay(sensor.position, transform.TransformDirection(Vector3.forward) * 10f, Color.yellow);
+        transform.Translate(Vector3.forward * speed * (Time.deltaTime / 4));
     }
 }
