@@ -13209,6 +13209,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 54088763787356778, guid: 01f73b7462c19b64bb8f02502f330c28, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 114652774536259596, guid: 01f73b7462c19b64bb8f02502f330c28, type: 3}
       propertyPath: foodBar
       value: 
