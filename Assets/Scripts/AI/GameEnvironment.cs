@@ -26,7 +26,7 @@ public class GameEnvironment {
                 instance = new GameEnvironment();
  
                 // Récupère tous les objets avec le tag "Checkpoint" et les ajoute à la liste checkpoints
-                instance.Checkpoints.AddRange(GameObject.FindGameObjectsWithTag("Checkpoint"));
+                instance.Checkpoints.AddRange(GameObject.FindGameObjectsWithTag("checkpoint"));
  
                 // Trie la liste des checkpoints par nom pour garantir un ordre constant
                 instance.checkpoints = instance.checkpoints.OrderBy(waypoint => waypoint.name).ToList();

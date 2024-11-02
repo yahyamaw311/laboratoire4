@@ -10,10 +10,9 @@ public class State {
     public enum STATE {
         IDLE,      // En attente
         PATROL,    // En patrouille
-        PURSUE,    // En poursuite du joueur
-        ATTACK,    // En attaque
-        SLEEP,     // En sommeil
-        RUNAWAY    // En fuite vers une zone sécurisée
+        PURSUE,    // En poursuite du joueur ligne 168
+        ATTACK,    // En attaque ligne 203
+        // RUNAWAY    // En fuite vers une zone sécurisée
     };
  
     // Événements d'état pour gérer les transitions
@@ -62,14 +61,6 @@ public class State {
     }
  
     // Méthode pour vérifier si le NPC peut voir le joueur
-    public bool CanSeePlayer() {
-        Vector3 direction = player.position - npc.transform.position;
-        float angle = Vector3.Angle(direction, npc.transform.forward);
-        if (direction.magnitude < visDist && angle < visAngle) {
-            return true;
-        }
-        return false;
-    }
  
     // Méthode pour vérifier si le joueur est derrière le NPC
     public bool IsPlayerBehind() {
@@ -87,6 +78,16 @@ public class State {
         }
         return false;
     }
+    public bool CanSeePlayer() {
+        Vector3 direction = player.position - npc.transform.position;
+        float angle = Vector3.Angle(direction, npc.transform.forward);
+        if (direction.magnitude < visDist && angle < visAngle) {
+            return true;
+        }
+        return false;
+    }
+
+    
 }
  
 // État "Idle" : NPC reste en attente
@@ -156,9 +157,6 @@ public class Patrol : State {
         if (CanSeePlayer()) {
             nextState = new Pursue(npc, agent, anim, player);
             stage = EVENT.EXIT;
-        } else if (IsPlayerBehind()) {
-            nextState = new RunAway(npc, agent, anim, player);
-            stage = EVENT.EXIT;
         }
     }
  
@@ -187,8 +185,9 @@ public class Pursue : State {
  
         if (agent.hasPath) {
             if (CanAttackPlayer()) {
-                nextState = new Attack(npc, agent, anim, player);
-                stage = EVENT.EXIT;
+                //nextState = new Attack(npc, agent, anim, player);
+                //stage = EVENT.EXIT;
+                Debug.Log("Attack");
             } else if (!CanSeePlayer()) {
                 nextState = new Patrol(npc, agent, anim, player);
                 stage = EVENT.EXIT;
@@ -205,68 +204,32 @@ public class Pursue : State {
 // État "Attack" : NPC attaque le joueur
 public class Attack : State {
     float rotationSpeed = 2.0f;
-    AudioSource shoot;
  
     public Attack(GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player)
         : base(_npc, _agent, _anim, _player) {
         name = STATE.ATTACK;
-        shoot = _npc.GetComponent<AudioSource>();
     }
  
     public override void Enter() {
-        anim.SetTrigger("isShooting");
         agent.isStopped = true;
-        shoot.Play();
         base.Enter();
     }
  
     public override void Update() {
-        Vector3 direction = player.position - npc.transform.position;
-        float angle = Vector3.Angle(direction, npc.transform.forward);
-        direction.y = 0.0f;
+        // Vector3 direction = player.position - npc.transform.position;
+        // float angle = Vector3.Angle(direction, npc.transform.forward);
+        // direction.y = 0.0f;
  
-        npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotationSpeed);
- 
+        // npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotationSpeed);
+        agent.SetDestination(player.position);
         if (!CanAttackPlayer()) {
             nextState = new Idle(npc, agent, anim, player);
-            shoot.Stop();
             stage = EVENT.EXIT;
         }
     }
  
     public override void Exit() {
-        anim.ResetTrigger("isShooting");
-        base.Exit();
-    }
-}
- 
-// État "RunAway" : NPC s'enfuit vers un lieu sûr
-public class RunAway : State {
-    GameObject safeLocation;
- 
-    public RunAway(GameObject _npc, NavMeshAgent _agent, Animator _anim, Transform _player)
-        : base(_npc, _agent, _anim, _player) {
-        name = STATE.RUNAWAY;
-        safeLocation = GameObject.FindGameObjectWithTag("Safe");
-    }
- 
-    public override void Enter() {
-        anim.SetTrigger("isRunning");
-        agent.isStopped = false;
-        agent.speed = 6;
-        agent.SetDestination(safeLocation.transform.position);
-        base.Enter();
-    }
- 
-    public override void Update() {
-        if (agent.remainingDistance < 1.0f) {
-            nextState = new Idle(npc, agent, anim, player);
-            stage = EVENT.EXIT;
-        }
-    }
- 
-    public override void Exit() {
-        anim.ResetTrigger("isRunning");
+        //anim.ResetTrigger("isShooting");
         base.Exit();
     }
 }

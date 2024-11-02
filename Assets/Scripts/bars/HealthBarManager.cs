@@ -6,33 +6,33 @@ using UnityEngine.UI;
 
 public class HealthBarManager : MonoBehaviour
 {
-    public HealthBar healthBar; // Référence à la barre de santé
+    public HealthBar healthBar; // Rï¿½fï¿½rence ï¿½ la barre de santï¿½
 
     private float currentHealth;
     private float maxHealth = 100f;
 
     void Start()
     {
-        Debug.Log("Démarrage du script HealthBarManager"); // Debug pour vérifier que Start est bien appelé
+        Debug.Log("Dï¿½marrage du script HealthBarManager"); // Debug pour vï¿½rifier que Start est bien appelï¿½
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth); // Initialiser la barre de santé avec la valeur maximale
+        healthBar.SetMaxHealth(maxHealth); // Initialiser la barre de santï¿½ avec la valeur maximale
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("insect"))
         {
-            Debug.Log("Flèche haut appuyée, inflige 10 points de dégâts");
-            TakeDamage(50);
+            Debug.Log("Flï¿½che haut appuyï¿½e, inflige 10 points de dï¿½gï¿½ts");
+            TakeDamage(10);
         }
     }
 
     public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Limiter la santé entre 0 et la santé max
-        Debug.Log("Santé actuelle après dégâts : " + currentHealth); // Vérifier que la santé est correctement calculée
-        healthBar.SetHealth(currentHealth, maxHealth); // Appeler la mise à jour de la barre de santé
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Limiter la santï¿½ entre 0 et la santï¿½ max
+        Debug.Log("Santï¿½ actuelle aprï¿½s dï¿½gï¿½ts : " + currentHealth); // Vï¿½rifier que la santï¿½ est correctement calculï¿½e
+        healthBar.SetHealth(currentHealth, maxHealth); // Appeler la mise ï¿½ jour de la barre de santï¿½
 
         if (currentHealth == 0)
         {

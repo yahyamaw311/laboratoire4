@@ -46,7 +46,7 @@ public class EnemyFollow : MonoBehaviour
 
         if (Physics.Raycast(rayon, out hit, Mathf.Infinity))
         {
-            Debug.Log("Right Sensor Objet:" + hit.collider.name + " Distance:" + hit.distance); 
+            Debug.Log(sensorName + " Sensor Objet:" + hit.collider.name + " Distance:" + hit.distance); 
 
             if (hit.distance < 1)
             {
