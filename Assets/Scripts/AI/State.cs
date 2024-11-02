@@ -29,6 +29,7 @@ public class State {
     protected Transform player;          // Référence au joueur
     protected State nextState;           // Prochain état du NPC
     protected NavMeshAgent agent;        // Agent de navigation pour les déplacements
+    protected Transform leftSensor, rightSensor; // Capteurs pour détecter les obstacles
  
     // Variables de distance et d'angle pour détecter le joueur
     float visDist = 10.0f;               // Distance de vision
@@ -42,6 +43,7 @@ public class State {
         anim = _anim;
         player = _player;
         stage = EVENT.ENTER;
+        
     }
  
     // Méthodes virtuelles pour gérer l'entrée, la mise à jour, et la sortie des états
@@ -79,15 +81,17 @@ public class State {
         return false;
     }
     public bool CanSeePlayer() {
-        Vector3 direction = player.position - npc.transform.position;
-        float angle = Vector3.Angle(direction, npc.transform.forward);
-        if (direction.magnitude < visDist && angle < visAngle) {
+
+        Ray rayon = new Ray(npc.transform.position, npc.transform.TransformDirection(Vector3.forward));
+        RaycastHit hit;
+        if (Physics.Raycast(rayon, out hit, Mathf.Infinity) && hit.collider.CompareTag("Player"))
+        {
+            Debug.Log("Sensor testies Objet:" + hit.collider.name + " Distance:" + hit.distance);
             return true;
         }
+        //Debug.DrawRay(npc.transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.yellow);
         return false;
     }
-
-    
 }
  
 // État "Idle" : NPC reste en attente
