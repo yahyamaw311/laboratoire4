@@ -82,14 +82,27 @@ public class State {
     }
     public bool CanSeePlayer() {
 
-        Ray rayon = new Ray(npc.transform.position, npc.transform.TransformDirection(Vector3.forward));
+        // Ray rayon = new Ray(npc.transform.position, npc.transform.TransformDirection(Vector3.forward));
+        // RaycastHit hit;
+        // if (Physics.Raycast(rayon, out hit, Mathf.Infinity) && hit.collider.CompareTag("Player"))
+        // {
+        //     Debug.Log("Sensor Objet:" + hit.collider.name + " Distance:" + hit.distance);
+        //     return true;
+        // }
+        // //Debug.DrawRay(npc.transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.yellow);
+        // return false;
+        return SensorForDetection(npc.transform.Find("L_sensor")) || SensorForDetection(npc.transform.Find("R_sensor")) ;
+    }
+
+    private bool SensorForDetection(Transform sensor){
+        Ray rayon = new Ray(sensor.position, npc.transform.TransformDirection(Vector3.forward));
         RaycastHit hit;
         if (Physics.Raycast(rayon, out hit, Mathf.Infinity) && hit.collider.CompareTag("Player"))
         {
-            Debug.Log("Sensor testies Objet:" + hit.collider.name + " Distance:" + hit.distance);
+            Debug.Log("Sensor Objet:" + hit.collider.name + " Distance:" + hit.distance);
             return true;
         }
-        //Debug.DrawRay(npc.transform.position, transform.TransformDirection(Vector3.forward) * 10f, Color.yellow);
+        Debug.DrawRay(sensor.position, sensor.TransformDirection(Vector3.forward) * 10f, Color.yellow);
         return false;
     }
 }
@@ -220,11 +233,6 @@ public class Attack : State {
     }
  
     public override void Update() {
-        // Vector3 direction = player.position - npc.transform.position;
-        // float angle = Vector3.Angle(direction, npc.transform.forward);
-        // direction.y = 0.0f;
- 
-        // npc.transform.rotation = Quaternion.Slerp(npc.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * rotationSpeed);
         agent.SetDestination(player.position);
         if (!CanAttackPlayer()) {
             nextState = new Idle(npc, agent, anim, player);
@@ -233,7 +241,6 @@ public class Attack : State {
     }
  
     public override void Exit() {
-        //anim.ResetTrigger("isShooting");
         base.Exit();
     }
 }

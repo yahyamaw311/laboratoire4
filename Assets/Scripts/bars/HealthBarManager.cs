@@ -13,7 +13,6 @@ public class HealthBarManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("D�marrage du script HealthBarManager"); // Debug pour v�rifier que Start est bien appel�
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth); // Initialiser la barre de sant� avec la valeur maximale
     }
