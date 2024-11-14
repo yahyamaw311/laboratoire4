@@ -22,7 +22,7 @@ public class HealthBarManager : MonoBehaviour
         if (other.CompareTag("insect"))
         {
             Debug.Log("Fl�che haut appuy�e, inflige 10 points de d�g�ts");
-            TakeDamage(10);
+            TakeDamage(20);
         }
     }
 

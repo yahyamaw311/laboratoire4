@@ -204,7 +204,7 @@ public class Pursue : State {
             if (CanAttackPlayer()) {
                 //nextState = new Attack(npc, agent, anim, player);
                 //stage = EVENT.EXIT;
-                Debug.Log("Attack");
+                //Debug.Log("Attack");
             } else if (!CanSeePlayer()) {
                 nextState = new Patrol(npc, agent, anim, player);
                 stage = EVENT.EXIT;

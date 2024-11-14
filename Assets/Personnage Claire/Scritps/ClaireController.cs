@@ -23,7 +23,8 @@ public class ClaireController : MonoBehaviour {
     [SerializeField] AudioClip sndJump, sndImpact, sndLeftFoot, sndRightFoot;
     bool switchFoot = false;
 
-    [SerializeField] bool isJumping = false;
+    public static bool isJumping = false;
+    public static bool jumped = false;
 
     public bool isDead = false;
     public GameObject gameOverSign;
@@ -120,12 +121,14 @@ public class ClaireController : MonoBehaviour {
     {
         if(Input.GetKeyDown(KeyCode.Space) && !isJumping)
         {
+            jumped = true;
             isJumping = true;
             rb.AddForce(Vector3.up * jumpForce);
             claireAudioSource.pitch = 1f;
             claireAnimator.SetTrigger("jump");
             claireAudioSource.PlayOneShot(sndJump);
         }
+        jumped = false;
     }
 
     public void ClaireDead()

@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "laboratoire4.sln"
+    "dotnet.defaultSolution": "laboratoire5.sln"
 }
