@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Chronometre : MonoBehaviour
 {
 
-    private int chronometre = 60;
+    private int chronometre = 120;
 
     [SerializeField] private Text chronometreText;
 

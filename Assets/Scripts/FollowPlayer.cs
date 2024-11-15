@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         // Positionner la caméra derrière le joueur en tenant compte de la rotation du joueur
-        Vector3 desiredPosition = new(player.position.x, 26.70f, player.position.z);
+        Vector3 desiredPosition = new(player.position.x, player.position.y, player.position.z);
         transform.position = desiredPosition;
 
         // Faire en sorte que la caméra regarde toujours le joueur (ou un point devant le joueur)
